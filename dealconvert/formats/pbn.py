@@ -68,10 +68,16 @@ class PBNFormat(DealFormat):
                        'E': dto.POSITION_EAST,
                        'S': dto.POSITION_SOUTH,
                        'W': dto.POSITION_WEST}
-            deal_dto.dealer = dealers[deal_obj.get_field('Dealer')]
-            vulnerability = deal_obj.get_field('Vulnerable')
-            for pair in deal_dto.vulnerable:
-                deal_dto.vulnerable[pair] = vulnerability in [pair, 'All']
+            if deal_obj.has_field('Dealer'):
+                deal_dto.dealer = dealers[deal_obj.get_field('Dealer')]
+            else:
+                deal_dto.dealer = deal_dto.get_dealer(deal_dto.number)
+            if deal_obj.has_field('Vulnerable'):
+                vulnerability = deal_obj.get_field('Vulnerable')
+                for pair in deal_dto.vulnerable:
+                    deal_dto.vulnerable[pair] = vulnerability in [pair, 'All']
+            else:
+                deal_dto.vulnerable = deal_dto.get_vulnerability(deal_dto.number)
             deal_parts = deal_obj.get_field('Deal').split(':')
             dealer = dealers[deal_parts[0]]
             hands = deal_parts[1].split(' ')
@@ -81,8 +87,8 @@ class PBNFormat(DealFormat):
             result.append(deal_dto)
         return result
 
-    def output_content(self, out_file, deal):
-        for board in deal:
+    def output_content(self, out_file, dealset):
+        for board in dealset:
             out_file.write('[Event "%s"]\r\n' % (board.event))
             out_file.write('[Board "%d"]\r\n' % (board.number))
             out_file.write('[Dealer "%s"]\r\n' % (
