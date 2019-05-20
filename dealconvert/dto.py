@@ -20,3 +20,20 @@ class Deal(object):
                       [[],[],[],[]],
                       [[],[],[],[]]]
         self.vulnerable = {'NS': False, 'EW': False}
+
+    def get_dealer(self, board_no):
+        return (board_no - 1) % 4
+
+    def get_vulnerability(self, board_no):
+        board_no = board_no % 16
+        vuln = {'NS': [False,
+                       False, True, False, True,
+                       True, False, True, False,
+                       False, True, False, True,
+                       True, False, True],
+                'EW': [True,
+                       False, False, True, True,
+                       False, True, True, False,
+                       True, True, False, False,
+                       True, False, False]}
+        return { pair: vuln[pair][board_no] for pair in vuln }
