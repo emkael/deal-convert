@@ -37,3 +37,9 @@ class Deal(object):
                        True, True, False, False,
                        True, False, False]}
         return { pair: vuln[pair][board_no] for pair in vuln }
+
+    def fill_west(self):
+        for suit in range(0, 4):
+            for card in 'AKQJT98765432':
+                if card not in self.hands[0][suit] + self.hands[1][suit] + self.hands[2][suit]:
+                    self.hands[3][suit].append(card)
