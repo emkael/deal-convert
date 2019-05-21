@@ -5,7 +5,6 @@ from .. import dto
 
 class BERFormat(DealFormat):
     number_warning = 'WARNING: .ber file format assumes consequent deal numbers from 1'
-    cards = 'AKQJT98765432'
 
     @property
     def suffix(self):

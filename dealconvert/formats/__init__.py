@@ -2,6 +2,7 @@ from os.path import dirname, basename, isfile, join
 import glob
 
 class DealFormat(object):
+    cards = 'AKQJT98765432'
     def parse(self, input_file):
         with open(input_file, 'rb') as content:
             return self.parse_content(content)
