@@ -1,4 +1,5 @@
-import argparse, sys
+from __future__ import print_function
+import argparse, sys, warnings
 
 from dealconvert import DealConverter
 
@@ -14,5 +15,12 @@ parser.add_argument('output', metavar='OUTPUT_FILE', nargs='*',
 
 arguments = parser.parse_args()
 
-converter = DealConverter(arguments.input)
-converter.output(arguments.output)
+def _warning(msg, *args, **kwargs):
+    print('WARNING: %s' % (msg), file=sys.stderr)
+warnings.showwarning = _warning
+
+try:
+    converter = DealConverter(arguments.input)
+    converter.output(arguments.output)
+except RuntimeError as e:
+    print('ERROR: %s' % (str(e)), file=sys.stderr)
