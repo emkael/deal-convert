@@ -1,3 +1,5 @@
+import warnings
+
 from . import DealFormat
 from .rzd import RZDFormat
 from .. import dto
@@ -16,7 +18,7 @@ class CDSFormat(DealFormat):
             data = content.read(14)
             if len(data) < 14:
                 if len(data) != 0:
-                    print 'WARNING: .cds data truncated: %s' % (data)
+                    warnings.warn('.cds data truncated: %s' % (data))
                 break
             deal = dto.Deal()
             deal.number = ord(data[0])

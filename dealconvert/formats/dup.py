@@ -1,4 +1,4 @@
-import sys
+import warnings
 
 from . import DealFormat
 from .bri import BRIFormat
@@ -20,18 +20,19 @@ class DUPFormat(DealFormat):
             boards.append(content.read(156))
             if len(boards[-1]) < 156:
                 if len(boards[-1]) > 0:
-                    print 'WARNING: truncated .dup content: %s' % (boards[-1])
+                    warnings.warn('truncated .dup content: %s' % (boards[-1]))
                 boards = boards[0:-1]
                 break
         boards = [(board[0:78], board[78:146], board[146:]) for board in boards]
         if boards[0][2][0] == chr(0):
-            print 'ERROR: .dup file header not found'
-            sys.exit()
+            raise RuntimeError('.dup file header not found')
         start_board = int(boards[0][2][2:4].strip())
         board_count = int(boards[0][2][7:9].strip())
         board_numbers = range(start_board, start_board+board_count)
         if boards[0][2][1].upper() != 'N':
-            print 'WARNING: .dup file header has "reverse" flag set, nobody knows what to do with it, so it\'s time to panic'
+            warnings.warn(
+                '.dup file header has "reverse" flag set, ' +
+                'nobody knows what to do with it, so it\'s time to panic')
         dealset = []
         for idx, board in enumerate(boards):
             deal = dto.Deal()
@@ -48,8 +49,8 @@ class DUPFormat(DealFormat):
         board_count = len(dealset)
         for board in range(first_board, first_board+board_count):
             if board not in board_numbers:
-                print 'ERROR: .dup format requires consequent board numbers'
-                sys.exit()
+                raise RuntimeError(
+                    '.dup format requires consequent board numbers')
         header = 'YN%s 0 %02d ' % (str(first_board).ljust(2, ' '), board_count)
         for deal in dealset:
             out_file.write(self.bri.single_deal_output(deal))

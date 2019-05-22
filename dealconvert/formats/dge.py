@@ -1,10 +1,10 @@
-import sys
+import warnings
 
 from . import DealFormat
 from .. import dto
 
 class DGEFormat(DealFormat):
-    number_warning = 'WARNING: .dge file format assumes consequent deal numbers from 1'
+    number_warning = '.dge file format assumes consequent deal numbers from 1'
     suits = {
         chr(6): dto.SUIT_SPADES,
         chr(3): dto.SUIT_HEARTS,
@@ -23,14 +23,14 @@ class DGEFormat(DealFormat):
         return '.dge'
 
     def parse_content(self, content):
-        print self.number_warning
+        warnings.warn(self.number_warning)
         dealset = []
         number = 1
         while True:
             deal_str = content.read(128).strip()
             if len(deal_str) > 0:
                 if len(deal_str) < 68:
-                    print 'WARNING: truncated .dge input: %s' % (deal_str)
+                    warnings.warn('truncated .dge input: %s' % (deal_str))
                     break
                 else:
                     deal = dto.Deal()
@@ -58,14 +58,13 @@ class DGEFormat(DealFormat):
                     hand += 1
             else:
                 if suit is None:
-                    print 'ERROR: invalid .dge line: %s' % (deal_str)
-                    sys.exit()
+                    raise RuntimeError('invalid .dge line: %s' % (deal_str))
                 else:
                     deal.hands[hand][suit].append(char)
         return deal.hands
 
     def output_content(self, out_file, dealset):
-        print self.number_warning
+        warnings.warn(self.number_warning)
         for deal in dealset:
             deal_str = self.single_deal_output(deal)
             deal_str += chr(0) * 60

@@ -1,22 +1,24 @@
+import warnings
+
 from . import DealFormat
 from .. import dto
 
 class BRIFormat(DealFormat):
-    number_warning = 'WARNING: .bri file format assumes consequent deal numbers from 1'
+    number_warning = '.bri file format assumes consequent deal numbers from 1'
 
     @property
     def suffix(self):
         return '.bri'
 
     def parse_content(self, content):
-        print self.number_warning
+        warnings.warn(self.number_warning)
         dealset = []
         number = 1
         while True:
             deal_str = content.read(128).strip()
             if len(deal_str) > 0:
                 if len(deal_str) < 78:
-                    print 'WARNING: truncated .bri input: %s' % (deal_str)
+                    warning.warn('truncated .bri input: %s' % (deal_str))
                     break
                 else:
                     deal_obj = dto.Deal()
@@ -35,8 +37,8 @@ class BRIFormat(DealFormat):
         try:
             deal = [int(deal_str[i*2:(i+1)*2], 10) for i in range(0, 39)]
             if max(deal) > 52:
-                print 'ERROR: invalid card in .bri file: %d' % (max(deal))
-                sys.exit()
+                raise RuntimeError(
+                    'invalid card in .bri file: %d' % (max(deal)))
             for hand in range(0, 3):
                 for card in deal[13*hand:13*(hand+1)]:
                     card = card - 1
@@ -45,12 +47,11 @@ class BRIFormat(DealFormat):
                     deal_obj.hands[hand][suit].append(self.cards[card])
             deal_obj.fill_west()
         except ValueError:
-            print 'ERROR: invalid card in .bri file: %s' % (deal_str)
-            sys.exit()
+            raise RuntimeError('invalid card in .bri file: %s' % (deal_str))
         return deal_obj.hands
 
     def output_content(self, out_file, dealset):
-        print self.number_warning
+        warnings.warn(self.number_warning)
         for deal in dealset:
             deal_str = self.single_deal_output(deal)
             deal_str += ' ' * 32
@@ -65,6 +66,6 @@ class BRIFormat(DealFormat):
                     try:
                         deal_str += '%02d' % (self.cards.index(card) + 13*i + 1)
                     except ValueError:
-                        print 'ERROR: invalid card character: %s' % (card)
-                        sys.exit()
+                        raise RuntimeError(
+                            'invalid card character: %s' % (card))
         return deal_str

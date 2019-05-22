@@ -1,4 +1,4 @@
-import sys
+import warnings
 
 from . import DealFormat
 from .. import dto
@@ -14,9 +14,12 @@ class BHGFormat(DealFormat):
         for board_no, line in enumerate(board_lines):
             if board_no > 0:
                 if len(line) != 52:
-                    print 'WARNING: malformed .bhg line #%d: %s' % (board_no, line)
+                    warnings.warn(
+                        'malformed .bhg line #%d: %s' % (board_no, line))
                 elif not line.isalpha():
-                    print 'WARNING: invalid characters in .bhg line #%d: %s' % (board_no, line)
+                    warnings.warn(
+                        'invalid characters in .bhg line #%d: %s' % (
+                            board_no, line))
                 else:
                     deal = dto.Deal()
                     deal.number = board_no
@@ -47,7 +50,8 @@ class BHGFormat(DealFormat):
                         for card in cards:
                             line += chr((65 if card < 26 else 71)+card)
                     except ValueError:
-                        print 'ERROR: invalid suit %s in board #%d' % (''.join(suit), deal.number)
-                        sys.exit()
+                        raise RuntimeError(
+                            'invalid suit %s in board #%d' % (
+                                ''.join(suit), deal.number))
             lines[deal.number] = line
         out_file.write('\r\n'.join(lines))

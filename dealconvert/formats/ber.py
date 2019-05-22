@@ -1,24 +1,24 @@
-import sys
+import warnings
 
 from . import DealFormat
 from .. import dto
 
 class BERFormat(DealFormat):
-    number_warning = 'WARNING: .ber file format assumes consequent deal numbers from 1'
+    number_warning = '.ber file format assumes consequent deal numbers from 1'
 
     @property
     def suffix(self):
         return '.ber'
 
     def parse_content(self, content):
-        print self.number_warning
+        warnings.warn(self.number_warning)
         dealset = []
         number = 1
         while True:
             deal_str = content.read(52).strip()
             if len(deal_str) > 0:
                 if len(deal_str) < 52:
-                    print 'WARNING: truncated .ber input: %s' % (deal_str)
+                    warnings.warn('truncated .ber input: %s' % (deal_str))
                     break
                 deal = dto.Deal()
                 deal.number = number
@@ -29,8 +29,9 @@ class BERFormat(DealFormat):
                         try:
                             deal.hands[int(deal_str[suit*13 + card])-1][suit].append(self.cards[card])
                         except (IndexError, ValueError):
-                            print 'ERROR: invalid character in .ber file: %s' % (deal_str[suit*13 + card])
-                            sys.exit()
+                            raise RuntimeError(
+                                'invalid character in .ber file: %s' % (
+                                    deal_str[suit*13 + card]))
                 dealset.append(deal)
                 number += 1
             else:
@@ -39,7 +40,7 @@ class BERFormat(DealFormat):
 
 
     def output_content(self, out_file, dealset):
-        print self.number_warning
+        warnings.warn(self.number_warning)
         for board in dealset:
             deal_str = [' '] * 52
             for i, hand in enumerate(board.hands):
@@ -48,7 +49,9 @@ class BERFormat(DealFormat):
                         try:
                             deal_str[j*13 + self.cards.index(card)] = str(i + 1)
                         except ValueError:
-                            print 'ERROR: invalid card character: %s' % (card)
+                            raise RuntimeError(
+                                'invalid card character: %s' % (card))
             if ' ' in deal_str:
-                print 'WARNING: not all cards present in board %d' % (board.number)
+                warnings.warn('not all cards present in board %d' % (
+                    board.number))
             out_file.write(''.join(deal_str))
