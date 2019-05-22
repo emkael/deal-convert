@@ -96,7 +96,7 @@ class DLMFormat(DealFormat):
                     for card in cards:
                         try:
                             values[suit*13+self.cards.index(card)] = i
-                        except IndexError:
+                        except ValueError:
                             print 'ERROR: invalid card: %s' % (card)
             line = 'Board %02d=' % (board)
             checksum = board
