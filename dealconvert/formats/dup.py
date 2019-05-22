@@ -51,7 +51,7 @@ class DUPFormat(DealFormat):
                 print 'ERROR: .dup format requires consequent board numbers'
                 sys.exit()
         header = 'YN%s 0 %02d ' % (str(first_board).ljust(2, ' '), board_count)
-        for deal in sorted(dealset, key=lambda d:d.number):
+        for deal in dealset:
             out_file.write(self.bri.single_deal_output(deal))
             out_file.write(self.dge.single_deal_output(deal))
             if deal.number == first_board:

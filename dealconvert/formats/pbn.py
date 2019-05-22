@@ -88,7 +88,7 @@ class PBNFormat(DealFormat):
         return result
 
     def output_content(self, out_file, dealset):
-        for board in sorted(dealset, key=lambda d:d.number):
+        for board in dealset:
             out_file.write('[Event "%s"]\r\n' % (board.event))
             out_file.write('[Board "%d"]\r\n' % (board.number))
             out_file.write('[Dealer "%s"]\r\n' % (
