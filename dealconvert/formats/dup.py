@@ -31,7 +31,7 @@ class DUPFormat(DealFormat):
         board_count = int(boards[0][2][7:9].strip())
         board_numbers = range(start_board, start_board+board_count)
         if boards[0][2][1].upper() != 'N':
-            board_numbers.reverse()
+            print 'WARNING: .dup file header has "reverse" flag set, nobody knows what to do with it, so it\'s time to panic'
         dealset = []
         for idx, board in enumerate(boards):
             deal = dto.Deal()
