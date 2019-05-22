@@ -10,12 +10,12 @@ class RZDFormat(DealFormat):
     def suffix(self):
         return '.rzd'
 
-    def parse_deal(self, data):
+    def parse_deal(self, data, offset=0):
         deal = dto.Deal()
         for card, byte in enumerate(data):
             byte = ord(byte)
             for suit in range(3, -1, -1):
-                deal.hands[byte%4][suit].append(self.cards[card])
+                deal.hands[(byte%4 - offset)%4][suit].append(self.cards[card])
                 byte /= 4
         return deal.hands
 
@@ -42,7 +42,7 @@ class RZDFormat(DealFormat):
             number += 1
         return dealset
 
-    def dump_deal(self, deal):
+    def dump_deal(self, deal, offset=0):
         value = ''
         values = [None] * 52
         for i, hand in enumerate(deal.hands):
@@ -53,7 +53,7 @@ class RZDFormat(DealFormat):
                     except ValueError:
                         print 'ERROR: invalid card: %s' % (card)
                         sys.exit()
-                    values[idx*4+suit] = i
+                    values[idx*4+suit] = (i + offset)%4
         for i in range(0, 13):
             byte = 0
             for j in range(0, 4):
