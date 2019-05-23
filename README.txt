@@ -11,3 +11,4 @@ optional arguments:
 
 Supported formats: BER BHG BRI CDS CSV DGE DLM DUP PBN RZD.
 Formats are auto-detected based on file extension.
+To display deals on STDOUT, provide "-" as an output file name.
