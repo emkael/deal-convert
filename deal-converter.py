@@ -7,7 +7,8 @@ parser = argparse.ArgumentParser(
     description='Universal converter for bridge deal formats',
     formatter_class=argparse.RawTextHelpFormatter,
     epilog='Supported formats: BER BHG BRI CDS CSV DGE DLM DUP PBN RZD.\n' + \
-    'Formats are auto-detected based on file extension.')
+    'Formats are auto-detected based on file extension.\n' + \
+    'To display deals on STDOUT, provide "-" as an output file name.')
 parser.add_argument('input', metavar='INPUT_FILE',
                     help='Input file path')
 parser.add_argument('output', metavar='OUTPUT_FILE', nargs='*',
