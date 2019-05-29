@@ -51,7 +51,7 @@ class BHGFormat(DealFormat):
                             line += chr((65 if card < 26 else 71)+card)
                     except ValueError:
                         raise RuntimeError(
-                            'invalid suit %s in board #%d' % (
+                            'invalid suit %s in board %d' % (
                                 ''.join(suit), deal.number))
             lines[deal.number] = line
         out_file.write('\r\n'.join(lines))

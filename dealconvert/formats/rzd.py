@@ -51,11 +51,13 @@ class RZDFormat(DealFormat):
                     try:
                         idx = self.cards.index(card)
                     except ValueError:
-                        raise RuntimeError('invalid card: %s' % (card))
+                        raise RuntimeError('invalid card: %s in board %d' % (card, deal.number))
                     values[idx*4+suit] = (i + offset)%4
         for i in range(0, 13):
             byte = 0
             for j in range(0, 4):
+                if values[4*i+j] is None:
+                    raise RuntimeError('missing card: %s%s in board %d' % ('SHDC'[j], self.cards[i], deal.number))
                 byte *= 4
                 byte += values[4*i+j]
             value += chr(byte)
