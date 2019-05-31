@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteRule ^.*$ api.py [QSA,L]
+
+AddHandler mod_python .py
+PythonHandler api
+PythonDebug On
