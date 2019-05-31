@@ -9,7 +9,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="dealconvert.js"></script>
   </head>
-  <body>
+  <body style="overflow-y: scroll">
     <div class="container">
       <div class="page-header">
         <a href="#" class="faq-btn btn btn-info float-right" data-toggle="collapse" data-trigger="hover" data-content="FAQ" data-placement="bottom" data-target="#faq">ⓘ</a>
@@ -141,20 +141,27 @@
         </div>
         <div class="form-group">
           <button type="submit" class="btn btn-primary" id="submit-btn" disabled="disabled">Konwertuj</button>
-          <!--
           <div class="form-check-inline">
             <input class="form-check-input" type="checkbox" name="display" value="yes" id="display-boards" />
             <label class="form-check-label" for="display-boards">Wyświetl podgląd rozkładów</label>
           </div>
-          -->
         </div>
       </form>
     </div>
     <template id="file-output-group">
       <div class="container output-group mb-1">
         <div class="card">
-          <div class="card-header"></div>
-          <div class="card-body"></div>
+          <div class="card-header file-header"></div>
+          <div class="card-body file-body">
+            <div class="card file-boards-panel mb-2">
+              <button class="btn card-header bg-primary text-white text-left" data-toggle="collapse" role="button" data-target="#boards-panel-body">
+                Podgląd rozkładów
+              </button>
+              <div id="boards-panel-body" class="collapse collapsed card-body">
+                <div class="board-body d-flex" style="flex-flow: row wrap; align-content: flex-start; justify-content: space-around"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </template>
@@ -170,6 +177,78 @@
     </template>
     <template id="file-output-error">
       <div class="alert alert-danger"></div>
+    </template>
+    <template id="board-preview">
+      <div class="card m-2" style="width: 20rem;">
+        <div class="card-header">
+          <h5 class="card-title">Rozdanie <span class="board-number"></span></h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-sm table-borderless m-auto">
+            <tr>
+              <td rowspan="4" colspan="2"></td>
+              <td><b>♠</b></td>
+              <td class="board-north-spades"></td>
+              <td rowspan="4" colspan="2"></td>
+            </tr>
+            <tr>
+              <td><b class="text-danger">♥</b></td>
+              <td class="board-north-hearts"></td>
+            </tr>
+            <tr>
+              <td><b class="text-danger">♦</b></td>
+              <td class="board-north-diamonds"></td>
+            </tr>
+            <tr>
+              <td><b>♣</b></td>
+              <td class="board-north-clubs"></td>
+            </tr>
+            <tr>
+              <td><b>♠</b></td>
+              <td class="board-west-spades"></td>
+              <td rowspan="4" colspan="2" class="text-center align-middle"><img class="board-conditions" /></td>
+              <td><b>♠</b></td>
+              <td class="board-east-spades"></td>
+            </tr>
+            <tr>
+              <td><b class="text-danger">♥</b></td>
+              <td class="board-west-hearts"></td>
+              <td><b class="text-danger">♥</b></td>
+              <td class="board-east-hearts"></td>
+            </tr>
+            <tr>
+              <td><b class="text-danger">♦</b></td>
+              <td class="board-west-diamonds"></td>
+              <td><b class="text-danger">♦</b></td>
+              <td class="board-east-diamonds"></td>
+            </tr>
+            <tr>
+              <td><b>♣</b></td>
+              <td class="board-west-clubs"></td>
+              <td><b>♣</b></td>
+              <td class="board-east-clubs"></td>
+            </tr>
+            <tr>
+              <td rowspan="4" colspan="2"></td>
+              <td><b>♠</b></td>
+              <td class="board-south-spades"></td>
+              <td rowspan="4" colspan="2"></td>
+            </tr>
+            <tr>
+              <td><b class="text-danger">♥</b></td>
+              <td class="board-south-hearts"></td>
+            </tr>
+            <tr>
+              <td><b class="text-danger">♦</b></td>
+              <td class="board-south-diamonds"></td>
+            </tr>
+            <tr>
+              <td><b>♣</b></td>
+              <td class="board-south-clubs"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </template>
   </body>
 </html>

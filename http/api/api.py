@@ -63,6 +63,22 @@ def handle_upload(response, request):
         input_file.close()
         if not len(dealset):
             raise RuntimeError('Dealset is empty')
+        if params['display_deals']:
+            preview_obj = []
+            for board in dealset:
+                deal_preview = {
+                    'number': board.number,
+                    'conditions': 'nesw'[board.dealer],
+                    'hands': []
+                }
+                for pair in ['ns', 'ew']:
+                    if board.vulnerable[pair.upper()]:
+                        deal_preview['conditions'] += '-' + pair
+                deal_preview['hands'] = board.hands
+                preview_obj.append(deal_preview)
+            return_obj['preview'] = preview_obj
+        else:
+            return_obj['preview'] = None
     except RuntimeError as e:
         return_obj['error'] = unicode(e)
         return _print_response(response, return_obj)

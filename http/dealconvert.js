@@ -52,9 +52,9 @@ $(document).ready(function() {
                                 var warningTemplate = $('template#file-output-warning');
                                 var errorTemplate = $('template#file-output-error');
                                 var fileTemplate = $('template#file-output');
-                                var inputHeader = outputGroup.find('.card-header');
+                                var inputHeader = outputGroup.find('.file-header');
                                 inputHeader.text(data.name);
-                                var groupBody = outputGroup.find('.card-body');
+                                var groupBody = outputGroup.find('.file-body');
                                 if (data.error) {
                                     inputHeader.addClass('bg-danger');
                                     groupBody.append(errorTemplate.clone().contents().unwrap().text(data.error));
@@ -93,6 +93,24 @@ $(document).ready(function() {
                                                 'href', 'api/' + data.files[f].link
                                             );
                                         }
+                                    }
+                                    if (data.preview) {
+                                        var boardTemplate = $('#board-preview');
+                                        var hands = ['north', 'east', 'south', 'west'];
+                                        var suits = ['spades', 'hearts', 'diamonds', 'clubs'];
+                                        for (var b = 0; b < data.preview.length; b++) {
+                                            var board = boardTemplate.clone().contents().unwrap();
+                                            board.find('.board-number').text(data.preview[b].number);
+                                            board.find('.board-conditions').attr('src', 'img/' + data.preview[b].conditions + '.png');
+                                            for (var h = 0; h < hands.length; h++) {
+                                                for (var s = 0; s < suits.length; s++) {
+                                                    board.find('.board-' + hands[h] + '-' + suits[s]).text(data.preview[b].hands[h][s].join(''));
+                                                }
+                                            }
+                                            outputGroup.find('.file-boards-panel .board-body').append(board);
+                                        }
+                                    } else {
+                                        outputGroup.find('.file-boards-panel').remove();
                                     }
                                 }
                                 $('body').append(outputGroup);
