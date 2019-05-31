@@ -66,7 +66,7 @@ class DLMFormat(DealFormat):
     def output_content(self, out_file, dealset):
         dealset = dealset[0:99]
         board_numbers = [deal.number for deal in dealset]
-        first_board = min(board_numbers)
+        first_board = min(board_numbers) if len(board_numbers) else 1
         board_count = len(dealset)
         for board in range(first_board, first_board+board_count):
             if board not in board_numbers:

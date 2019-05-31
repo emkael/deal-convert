@@ -40,7 +40,7 @@ class BHGFormat(DealFormat):
         return deals
 
     def output_content(self, out_file, dealset):
-        lines = [''] * (max([board.number for board in dealset])+2)
+        lines = [''] * (max([board.number for board in dealset])+2) if len(dealset) else []
         for deal in dealset:
             line = ''
             for hand in range(0, 4):

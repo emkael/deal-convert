@@ -8,6 +8,8 @@ class DealFormat(object):
             return self.parse_content(content)
 
     def output(self, output_file, deal):
+        if not len(deal):
+            raise RuntimeError('Dealset is empty')
         with open(output_file, 'wb') as out_file:
             return self.output_content(out_file, deal)
 
