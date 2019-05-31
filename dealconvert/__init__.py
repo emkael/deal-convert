@@ -20,4 +20,4 @@ class DealConverter(object):
                     deal_format.upper() + 'Format')()
             if self.formats[deal_format].match_file(filename):
                 return self.formats[deal_format]
-        raise ValueError('Unrecognized file extension: %s' % filename)
+        raise RuntimeError('Unrecognized file extension: %s' % filename)
