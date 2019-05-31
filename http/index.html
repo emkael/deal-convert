@@ -1,0 +1,122 @@
+<html>
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>DealConvert by mkl</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="dealconvert.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <h1>Konwerter rozdań</h1>
+        <p><a href="https://github.com/emkael/deal-convert/">Deal-convert</a>, autor: <a href="https://emkael.info/">Michał Klichowicz</a></p>
+      </div>
+    </div>
+    <div class="container">
+      <form id="converter-input">
+        <div class="form-group">
+          <label for="input-files">Wrzuć pliki wejściowe:</label>
+          <input type="file" multiple="multiple" class="form-control-file" id="input-files" name="input-files">
+        </div>
+        <div class="form-group">
+          <label>Wybierz formaty wyjściowe:</label>
+          <div class="row">
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="ber" id="output-ber" />
+                <label class="form-check-label" for="output-ber">Bernasconi (BER)</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="bhg" id="output-bhg" />
+                <label class="form-check-label" for="output-bhg">Borel Hand Generator (BHG)</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="bri" id="output-bri" />
+                <label class="form-check-label" for="output-bri">BRI</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="cds" id="output-cds" />
+                <label class="form-check-label" for="output-cds">CDS-2000 (CDS)</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="csv" id="output-csv" />
+                <label class="form-check-label" for="output-csv">CSV</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="dge" id="output-dge" />
+                <label class="form-check-label" for="output-dge">DGE</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="dlm" id="output-dlm" />
+                <label class="form-check-label" for="output-dlm">New Duplimate (DLM)</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="dup" id="output-dup" />
+                <label class="form-check-label" for="output-dup">Old Duplimate (DUP)</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="pbn" id="output-pbn" />
+                <label class="form-check-label" for="output-pbn">Portable Bridge Notation (PBN)</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="rzd" id="output-rzd" />
+                <label class="form-check-label" for="output-rzd">KoPS (RZD)</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" id="submit-btn" disabled="disabled">Konwertuj</button>
+          <!--
+          <div class="form-check-inline">
+            <input class="form-check-input" type="checkbox" name="display" value="yes" id="display-boards" />
+            <label class="form-check-label" for="display-boards">Wyświetl podgląd rozkładów</label>
+          </div>
+          -->
+        </div>
+      </form>
+    </div>
+    <template id="file-output-group">
+      <div class="container output-group mb-1">
+        <div class="card">
+          <div class="card-header"></div>
+          <div class="card-body"></div>
+        </div>
+      </div>
+    </template>
+    <template id="file-output">
+      <div class="d-flex btn-group m-1">
+        <a class="btn file-status" data-toggle="poppler" data-trigger="click hover" data-placement="bottom" data-html="true"></a>
+        <a class="btn w-100 text-left p-2 file-name"></a>
+        <a class="btn ml-auto btn-primary file-link">Pobierz</a>
+      </div>
+    </template>
+    <template id="file-output-warning">
+      <div class="alert alert-warning"></div>
+    </template>
+    <template id="file-output-error">
+      <div class="alert alert-danger"></div>
+    </template>
+  </body>
+</html>
