@@ -7,6 +7,9 @@ $(document).ready(function() {
             $('#submit-btn').attr('disabled', 'disabled');
         }
     });
+    $('#input-files').change(function() {
+        $('#submit-panel, #output-formats').collapse(this.files.length ? 'show' : 'hide');
+    });
     $('#converter-input').submit(function() {
         var that = $(this);
         var output = [];
