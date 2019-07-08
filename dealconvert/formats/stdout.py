@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from . import DealFormat
 
 class STDOUTFormat(DealFormat):
@@ -30,4 +32,4 @@ class STDOUTFormat(DealFormat):
                 lines.append(' ' * width + suit)
             lines.append('')
             lines[1] = header + lines[1][len(header):]
-            print '\n'.join(lines)
+            print('\n'.join(lines))
