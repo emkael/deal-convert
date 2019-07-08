@@ -1,0 +1,254 @@
+<html>
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>DealConvert by mkl</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="dealconvert.js"></script>
+  </head>
+  <body style="overflow-y: scroll">
+    <div class="container">
+      <div class="page-header">
+        <a href="#" class="faq-btn btn btn-info float-right" data-toggle="collapse" data-trigger="hover" data-content="FAQ" data-placement="bottom" data-target="#faq">ⓘ</a>
+        <h1>Konwerter rozdań</h1>
+        <p><a href="https://github.com/emkael/deal-convert/">Deal-convert</a>, autor: <a href="https://emkael.info/">Michał Klichowicz</a></p>
+      </div>
+    </div>
+    <div class="container collapse mb-3" id="faq">
+      <div class="card">
+        <div class="card-header bg-info text-white">
+          Pytania i odpowiedzi
+        </div>
+        <div class="card-body">
+          <dl>
+            <dt>Czemu konwerter mi nie zadziałał?</dt>
+            <dd>
+              Nie wiem, prześlij mi problemowy plik z opisem błędu <a href="mailto:klichowicz.michal@gmail.com">mailem</a> albo od razu <a href="https://github.com/emkael/deal-convert/issues/">do systemu śledzenia błędów</a>.<br />
+              Pliki wszystkich formatów wygenerowane poprawnie i z ciągłą numeracją rozdań od 1 (np. wygenerowane przez BigDeala) powinny konwertować się we wszystkie strony bez problemu. Nie wszystkie formaty plików są udokumentowane w sposób pozwalający obsłużyć je kompleksowo, na przykład formaty <code>DUP</code> i <code>DLM</code> (stary i nowy format Duplimate) zawierają dużo opcji, które konwerter ignoruje, a czasami wręcz wprost przyznaje, że nie wie, jak się zachować. Jeśli masz jakieś informacje, które mogłyby usprawnić wsparcie takich formatów, pisz jak wyżej.
+            </dd>
+            <dt>Czemu konwerter nie wspiera formatu X?</dt>
+            <dd>
+              Bo nie obsługiwał go BigDeal w momencie, kiedy konwerter powstawał.<br />
+              Wyjątkiem są "ślepe" formaty Duplimate, które były wyodrębione w BigDeal, ale nie są obsługiwane, a różnią się od "jawnych" formatów Duplimate tylko określonymi opcjami. Oba te formaty są prawidłowo importowane, konwerter zapisuje jednak tylko do plików "jawnych".<br />
+              W przyszłości rozważane jest wsparcie dla formatu <code>LIN</code>. Jeśli chcesz obsługi jakiegoś innego formatu, pisz jak wyżej.
+            </dd>
+            <dt>Czemu w pliku PBN nie ma analizy w widne?</dt>
+            <dd>Nie ma, pracuję nad tym. Możesz ją sobie łatwo (i szybko!) wykonać przy pomocy <a href="https://github.com/emkael/bcdd/">BCDD</a>.</dd>
+            <dt>Czemu dostaję mnóstwo ostrzeżeń <kbd>.xxx file format assumes consequent deal numbers from 1</kbd>?</dt>
+            <dd>Niektóre formaty nie przechowują numerów rozdań. W takich sytuacjach, zarówno przy imporcie, jak i eksporcie, konwerter zakłada, że rozdania mają kolejne numery, od 1. Może to doprowadzić do zmiany numeracji rozdań, jeśli oryginalny plik nie zaczynał się od rozdania nr 1 albo numeracja zawierała dziury.</dd>
+            <dt>Czemu mój PBN nie chce się otworzyć w BigDealu?</dt>
+            <dd>
+              BigDeal zakłada, że numeracja rozdań w pliku PBN zaczyna się od 1. Możliwy jest eksport do PBN plików, które nie spełniają tego warunku (np. formaty Duplimate robią tak powszechnie).<br />
+              Jest łatwy sposób, aby poradzić sobie z tym problemem:
+              <ol>
+                <li>Wyeksportować rozkłady do plik <code>DLM</code>.</li>
+                <li>Odnaleźć w pliku <code>DLM</code> linię <kbd>From board=X</kbd>.</li>
+                <li>Zmienić ją na <kbd>From board=1</kbd>.</li>
+                <li>Tak spreparowany plik skonwertować do <code>PBN</code>.</li>
+                <li>Prawdopodobnie konwerter zgłosi błąd sumy kontrolnej, można go ignorować, jeśli nie chce się używać pośredniego pliku <code>DLM</code>.</li>
+                <li>Wynikowy plik <code>PBN</code> rozpoczyna się od rozdania nr 1 i jest uzupełniony rozdaniami z 13-kartowymi kolorami w każdej z rąk.</li>
+              </ol>
+            <dt>Czy to bezpieczne, tak wysyłać rozkłady do Internetu?</dt>
+            <dd>
+              Doskonałe pytanie!<br />
+              Nie jestem oczywiście w stanie zapewnić, że przesyłane w ten sposób rozkłady są w 100% odporne na wyciek, ale ze strony konwertera:
+              <ul>
+                <li>zapewniam szyfrowane połączenie HTTPS</li>
+                <li>udostępniam <a href="https://github.com/emkael/deal-convert/">kod źródłowy całości narzędzia</a></li>
+                <li>nie przechowuję oryginalnych plików wejściowych na serwerze</li>
+                <li>pliki wynikowe przechowuję przez <strong>15 minut</strong> od momentu wygenerowania</li>
+                <li>pliki wynikowe dostępne są tylko w tej samej sesji przeglądarki, w której zostały wygenerowane</li>
+              </ul>
+              Ogólnie, jeśli zachować elementarne środki ostrożności, tj. niekorzystanie z konwertera w niezaufanych sieciach oraz z niezaufanych komputerów, konwerter niesie dużo mniejsze ryzyko niż np. zostawienie rozkładów na pamięci przenośnej na sali gry czy wysyłanie ich pocztą elektroniczną.
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <form id="converter-input">
+        <div class="form-group">
+          <label for="input-files">Wrzuć pliki wejściowe:</label>
+          <input type="file" multiple="multiple" class="form-control-file" id="input-files" name="input-files">
+        </div>
+        <div class="form-group collapse" id="output-formats">
+          <label>Wybierz formaty wyjściowe:</label>
+          <div class="row">
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="ber" id="output-ber" />
+                <label class="form-check-label" for="output-ber">Bernasconi (BER)</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="bhg" id="output-bhg" />
+                <label class="form-check-label" for="output-bhg">Borel Hand Generator (BHG)</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="bri" id="output-bri" />
+                <label class="form-check-label" for="output-bri">BRI</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="cds" id="output-cds" />
+                <label class="form-check-label" for="output-cds">CDS-2000 (CDS)</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="csv" id="output-csv" />
+                <label class="form-check-label" for="output-csv">CSV</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="dge" id="output-dge" />
+                <label class="form-check-label" for="output-dge">DGE</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="dlm" id="output-dlm" />
+                <label class="form-check-label" for="output-dlm">New Duplimate (DLM)</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="dup" id="output-dup" />
+                <label class="form-check-label" for="output-dup">Old Duplimate (DUP)</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="pbn" id="output-pbn" />
+                <label class="form-check-label" for="output-pbn">Portable Bridge Notation (PBN)</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="rzd" id="output-rzd" />
+                <label class="form-check-label" for="output-rzd">KoPS (RZD)</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group collapse" id="submit-panel">
+          <button type="submit" class="btn btn-primary" id="submit-btn" disabled="disabled">Konwertuj</button>
+          <div class="form-check-inline">
+            <input class="form-check-input" type="checkbox" name="display" value="yes" id="display-boards" />
+            <label class="form-check-label" for="display-boards">Wyświetl podgląd rozkładów</label>
+          </div>
+        </div>
+      </form>
+    </div>
+    <template id="file-output-group">
+      <div class="container output-group mb-1">
+        <div class="card">
+          <div class="card-header file-header"></div>
+          <div class="card-body file-body">
+            <div class="card file-boards-panel mb-2">
+              <button class="btn card-header bg-primary text-white text-left" data-toggle="collapse" role="button" data-target="#boards-panel-body">
+                Podgląd rozkładów
+              </button>
+              <div id="boards-panel-body" class="collapse collapsed card-body">
+                <div class="board-body d-flex" style="flex-flow: row wrap; align-content: flex-start; justify-content: space-around"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+    <template id="file-output">
+      <div class="d-flex btn-group m-1">
+        <a class="btn file-status" data-toggle="poppler" data-trigger="click hover" data-placement="bottom" data-html="true"></a>
+        <a class="btn w-100 text-left p-2 file-name"></a>
+        <a class="btn ml-auto btn-primary file-link">Pobierz</a>
+      </div>
+    </template>
+    <template id="file-output-warning">
+      <div class="alert alert-warning"></div>
+    </template>
+    <template id="file-output-error">
+      <div class="alert alert-danger"></div>
+    </template>
+    <template id="board-preview">
+      <div class="card m-2" style="width: 20rem;">
+        <div class="card-header">
+          <h5 class="card-title">Rozdanie <span class="board-number"></span></h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-sm table-borderless m-auto">
+            <tr>
+              <td rowspan="4" colspan="2"></td>
+              <td><b>♠</b></td>
+              <td class="board-north-spades"></td>
+              <td rowspan="4" colspan="2"></td>
+            </tr>
+            <tr>
+              <td><b class="text-danger">♥</b></td>
+              <td class="board-north-hearts"></td>
+            </tr>
+            <tr>
+              <td><b class="text-danger">♦</b></td>
+              <td class="board-north-diamonds"></td>
+            </tr>
+            <tr>
+              <td><b>♣</b></td>
+              <td class="board-north-clubs"></td>
+            </tr>
+            <tr>
+              <td><b>♠</b></td>
+              <td class="board-west-spades"></td>
+              <td rowspan="4" colspan="2" class="text-center align-middle"><img class="board-conditions" /></td>
+              <td><b>♠</b></td>
+              <td class="board-east-spades"></td>
+            </tr>
+            <tr>
+              <td><b class="text-danger">♥</b></td>
+              <td class="board-west-hearts"></td>
+              <td><b class="text-danger">♥</b></td>
+              <td class="board-east-hearts"></td>
+            </tr>
+            <tr>
+              <td><b class="text-danger">♦</b></td>
+              <td class="board-west-diamonds"></td>
+              <td><b class="text-danger">♦</b></td>
+              <td class="board-east-diamonds"></td>
+            </tr>
+            <tr>
+              <td><b>♣</b></td>
+              <td class="board-west-clubs"></td>
+              <td><b>♣</b></td>
+              <td class="board-east-clubs"></td>
+            </tr>
+            <tr>
+              <td rowspan="4" colspan="2"></td>
+              <td><b>♠</b></td>
+              <td class="board-south-spades"></td>
+              <td rowspan="4" colspan="2"></td>
+            </tr>
+            <tr>
+              <td><b class="text-danger">♥</b></td>
+              <td class="board-south-hearts"></td>
+            </tr>
+            <tr>
+              <td><b class="text-danger">♦</b></td>
+              <td class="board-south-diamonds"></td>
+            </tr>
+            <tr>
+              <td><b>♣</b></td>
+              <td class="board-south-clubs"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </template>
+  </body>
+</html>

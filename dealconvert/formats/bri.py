@@ -67,5 +67,5 @@ class BRIFormat(DealFormat):
                         deal_str += '%02d' % (self.cards.index(card) + 13*i + 1)
                     except ValueError:
                         raise RuntimeError(
-                            'invalid card character: %s' % (card))
+                            'invalid card character: %s in board %d' % (card, deal.number))
         return deal_str

@@ -50,7 +50,7 @@ class BERFormat(DealFormat):
                             deal_str[j*13 + self.cards.index(card)] = str(i + 1)
                         except ValueError:
                             raise RuntimeError(
-                                'invalid card character: %s' % (card))
+                                'invalid card character: %s in board %d' % (card, board.number))
             if ' ' in deal_str:
                 warnings.warn('not all cards present in board %d' % (
                     board.number))

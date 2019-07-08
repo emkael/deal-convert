@@ -1,0 +1,1 @@
+* * * * * find $SITEPATH/cache -type f -mmin +15 -not -name .gitignore -delete
