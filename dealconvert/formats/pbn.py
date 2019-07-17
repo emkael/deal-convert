@@ -18,6 +18,10 @@ class PBNField(object):
             return PBNField(key=match.group(1), value=match.group(2))
         return PBNField(None, line)
 
+    def __repr__(self):
+        return '[%s "%s"]' % (self.key, self.value) \
+            if self.key is not None else self.value
+
 class PBNDeal(object):
     __slots__ = ['fields']
 
@@ -32,11 +36,27 @@ class PBNDeal(object):
                 return True
         return False
 
-    def get_field(self, fieldname):
+    def get_field(self, fieldname, obj=False):
         for field in self.fields:
             if field.key == fieldname:
-                return field.value
+                return field if obj else field.value
         return None
+
+    def get_optimum_table(self):
+        table = []
+        found = False
+        for field in self.fields:
+            if field.key == 'OptimumResultTable':
+                table.append(str(field))
+                found = True
+            else:
+                if found:
+                    if field.key is None:
+                        table.append(str(field))
+                    else:
+                        break
+        return table
+
 
 class PBNFormat(DealFormat):
     @property
@@ -85,6 +105,12 @@ class PBNFormat(DealFormat):
                 for i, suit in enumerate(hands[hand].split('.')):
                     deal_dto.hands[(hand + dealer) % 4][i] = list(suit)
             result.append(deal_dto)
+            if deal_obj.has_field('OptimumResultTable'):
+                deal_dto.extra_fields += deal_obj.get_optimum_table()
+            for field in ['Ability', 'Minimax', 'OptimumScore']:
+                if deal_obj.has_field(field):
+                    deal_dto.extra_fields.append(
+                        str(deal_obj.get_field(field, True)))
         return result
 
     def output_content(self, out_file, dealset):
@@ -104,4 +130,6 @@ class PBNFormat(DealFormat):
                     '.'.join([''.join(suit) for suit in hand])
                     for hand in board.hands
                 ])))
+            for field in board.extra_fields:
+                out_file.write(field + '\r\n')
             out_file.write('\r\n')

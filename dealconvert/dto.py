@@ -13,6 +13,7 @@ class Deal(object):
     vulnerable = None
     dealer = None
     hands = None
+    extra_fields = None
 
     def __init__(self):
         self.hands = [[[],[],[],[]],
@@ -20,6 +21,7 @@ class Deal(object):
                       [[],[],[],[]],
                       [[],[],[],[]]]
         self.vulnerable = {'NS': False, 'EW': False}
+        self.extra_fields = []
 
     def get_dealer(self, board_no):
         return (board_no - 1) % 4
