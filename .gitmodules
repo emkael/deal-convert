@@ -1,0 +1,3 @@
+[submodule "pybcdd"]
+	path = pybcdd
+	url = https://emkael.info/cgit/pybcdd
