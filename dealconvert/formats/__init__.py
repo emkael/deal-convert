@@ -3,6 +3,10 @@ import glob
 
 class DealFormat(object):
     cards = 'AKQJT98765432'
+
+    def __init__(self, interactive=True):
+        self.interactive = interactive
+
     def parse(self, input_file):
         with open(input_file, 'rb') as content:
             return self.parse_content(content)

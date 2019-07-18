@@ -6,7 +6,10 @@ from StringIO import StringIO
 from mod_python import apache, Session
 
 OLDPATH = copy.copy(sys.path)
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), '../../pybcdd')))
 from dealconvert import DealConverter
 sys.path = OLDPATH
 
@@ -95,7 +98,7 @@ def handle_upload(response, request):
         try:
             output_name = '.'.join(params['name'].split('.')[:-1] + [output_type])
             output_return['name'] = output_name
-            output = converter.detect_format(output_name)
+            output = converter.detect_format(output_name, False)
             output_id, output_path = _get_file_id()
             token = _get_rand_string(16)
             output_buffer = StringIO()

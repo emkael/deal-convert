@@ -10,7 +10,7 @@ class DUPFormat(DealFormat):
     def suffix(self):
         return '.dup'
 
-    def __init__(self):
+    def __init__(self, interactive=True):
         self.bri = BRIFormat()
         self.dge = DGEFormat()
 

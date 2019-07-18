@@ -1,5 +1,7 @@
 from __future__ import print_function
-import argparse, sys, warnings
+import argparse, os, sys, warnings
+
+sys.path.append(os.path.realpath(os.path.join('.', 'pybcdd')))
 
 from dealconvert import DealConverter
 

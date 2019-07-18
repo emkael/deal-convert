@@ -12,12 +12,12 @@ class DealConverter(object):
         for output in output_files:
             self.detect_format(output).output(output, deal_set)
 
-    def detect_format(self, filename):
+    def detect_format(self, filename, interactive=True):
         for deal_format in globals()['formats'].__all__:
             if deal_format not in self.formats:
                 self.formats[deal_format] = getattr(
                     globals()[deal_format],
-                    deal_format.upper() + 'Format')()
+                    deal_format.upper() + 'Format')(interactive)
             if self.formats[deal_format].match_file(filename):
                 return self.formats[deal_format]
         raise RuntimeError('Unrecognized file extension: %s' % filename)

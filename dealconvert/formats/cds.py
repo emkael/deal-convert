@@ -9,7 +9,7 @@ class CDSFormat(DealFormat):
     def suffix(self):
         return '.cds'
 
-    def __init__(self):
+    def __init__(self, interactive=True):
         self.rzd_format = RZDFormat()
 
     def parse_content(self, content):

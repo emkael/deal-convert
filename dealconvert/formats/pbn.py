@@ -1,4 +1,8 @@
-import re
+import re, sys, warnings
+
+from bcdd.PBNBoard import PBNBoard
+from bcdd.DDTable import DDTable
+from bcdd.ParScore import ParScore
 
 from . import DealFormat
 from .. import dto
@@ -115,21 +119,32 @@ class PBNFormat(DealFormat):
 
     def output_content(self, out_file, dealset):
         for board in dealset:
-            out_file.write('[Event "%s"]\r\n' % (board.event))
-            out_file.write('[Board "%d"]\r\n' % (board.number))
-            out_file.write('[Dealer "%s"]\r\n' % (
+            lines = []
+            lines.append('[Event "%s"]' % (board.event))
+            lines.append('[Board "%d"]' % (board.number))
+            lines.append('[Dealer "%s"]' % (
                 'NESW'[board.dealer]
             ))
-            out_file.write('[Vulnerable "%s"]\r\n' % (
+            lines.append('[Vulnerable "%s"]' % (
                 ('All' if board.vulnerable['EW'] else 'NS') if
                 board.vulnerable['NS'] else
                 ('EW' if board.vulnerable['EW'] else 'None')
             ))
-            out_file.write('[Deal "N:%s"]\r\n' % (
+            lines.append('[Deal "N:%s"]' % (
                 ' '.join([
                     '.'.join([''.join(suit) for suit in hand])
                     for hand in board.hands
                 ])))
             for field in board.extra_fields:
-                out_file.write(field + '\r\n')
-            out_file.write('\r\n')
+                lines.append(field)
+            try:
+                dd_board = PBNBoard(lines)
+                dd_table = DDTable(dd_board).get_dd_table(self.interactive)
+                dd_contract = ParScore(dd_board).get_par_contract(dd_table)
+                dd_board.save_dd_table(dd_table)
+                dd_board.save_par_contract(dd_contract)
+                lines = [field.raw_field for field in dd_board.fields]
+            except Exception as e:
+                warnings.warn('unable to determine double-dummy data: %s' % e)
+            for line in lines + ['']:
+                out_file.write(line + '\r\n')
