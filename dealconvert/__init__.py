@@ -10,7 +10,7 @@ class DealConverter(object):
     def output(self, output_files):
         deal_set = sorted(self.parser.parse(self.input), key=lambda d:d.number)
         for output in output_files:
-            self.detect_format(output).output(output, deal_set)
+            self.detect_format(output).output(output, deal_set, True)
 
     def detect_format(self, filename, interactive=True):
         for deal_format in globals()['formats'].__all__:

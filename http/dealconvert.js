@@ -3,8 +3,14 @@ $(document).ready(function() {
     $('input[name="output"]').change(function() {
         if ($('input[name="output"]:checked').length > 0) {
             $('#submit-btn').removeAttr('disabled');
+            if ($('input[name="output"][value="pbn"]').is(':checked')) {
+                $('#analyze-boards').removeAttr('disabled');
+            } else {
+                $('#analyze-boards').attr('disabled', 'disabled').prop('checked', false);
+            }
         } else {
             $('#submit-btn').attr('disabled', 'disabled');
+            $('#analyze-boards').attr('disabled', 'disabled').prop('checked', false);
         }
     });
     $('#input-files').change(function() {
@@ -17,6 +23,7 @@ $(document).ready(function() {
             output.push(this.value);
         });
         var display = that.find('input[name="display"]').is(':checked');
+        var analyze = that.find('input[name="analyze"]').is(':checked');
         var files = {};
         var formFiles = this['input-files'].files;
         if (formFiles.length) {
@@ -42,7 +49,8 @@ $(document).ready(function() {
                         'name': file,
                         'content': files[file],
                         'output': output,
-                        'display_deals': display
+                        'display_deals': display,
+                        'analyze_deals': analyze
                     };
                     $.ajax(
                         'api/upload/',

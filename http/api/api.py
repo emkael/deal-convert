@@ -102,6 +102,7 @@ def handle_upload(response, request):
             output_id, output_path = _get_file_id()
             token = _get_rand_string(16)
             output_buffer = StringIO()
+            output.analyze = params.get('analyze_deals', False)
             output.output_content(output_buffer, dealset)
             with file(output_path, 'w') as output_file:
                 json.dump({

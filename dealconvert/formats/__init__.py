@@ -11,7 +11,8 @@ class DealFormat(object):
         with open(input_file, 'rb') as content:
             return self.parse_content(content)
 
-    def output(self, output_file, deal):
+    def output(self, output_file, deal, analyze=False):
+        self.analyze = analyze
         if not len(deal):
             raise RuntimeError('Dealset is empty')
         with open(output_file, 'wb') as out_file:

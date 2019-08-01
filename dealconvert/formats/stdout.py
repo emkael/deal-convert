@@ -9,7 +9,7 @@ class STDOUTFormat(DealFormat):
     def parse(self, input_file):
         return []
 
-    def output(self, output_file, deal):
+    def output(self, output_file, deal, analyze=False):
         width = 9
         for board in deal:
             lines = []
