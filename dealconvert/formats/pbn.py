@@ -95,13 +95,15 @@ class PBNFormat(DealFormat):
             if deal_obj.has_field('Dealer'):
                 deal_dto.dealer = dealers[deal_obj.get_field('Dealer')]
             else:
-                deal_dto.dealer = deal_dto.get_dealer(deal_dto.number)
+                if deal_dto.number is not None:
+                    deal_dto.dealer = deal_dto.get_dealer(deal_dto.number)
             if deal_obj.has_field('Vulnerable'):
                 vulnerability = deal_obj.get_field('Vulnerable')
                 for pair in deal_dto.vulnerable:
                     deal_dto.vulnerable[pair] = vulnerability in [pair, 'All']
             else:
-                deal_dto.vulnerable = deal_dto.get_vulnerability(deal_dto.number)
+                if deal_dto.number is not None:
+                    deal_dto.vulnerable = deal_dto.get_vulnerability(deal_dto.number)
             deal_parts = deal_obj.get_field('Deal').split(':')
             dealer = dealers[deal_parts[0]]
             hands = deal_parts[1].split(' ')
