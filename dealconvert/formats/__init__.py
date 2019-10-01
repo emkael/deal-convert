@@ -4,8 +4,9 @@ import glob
 class DealFormat(object):
     cards = 'AKQJT98765432'
 
-    def __init__(self, interactive=True):
+    def __init__(self, interactive=True, jfr_only=False):
         self.interactive = interactive
+        self.jfr_only = jfr_only
 
     def parse(self, input_file):
         with open(input_file, 'rb') as content:

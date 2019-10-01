@@ -144,8 +144,8 @@ class PBNFormat(DealFormat):
                     dd_board = PBNBoard(lines)
                     dd_table = DDTable(dd_board).get_dd_table(self.interactive)
                     dd_contract = ParScore(dd_board).get_par_contract(dd_table)
-                    dd_board.save_dd_table(dd_table)
-                    dd_board.save_par_contract(dd_contract)
+                    dd_board.save_dd_table(dd_table, jfr_only=self.jfr_only)
+                    dd_board.save_par_contract(dd_contract, jfr_only=self.jfr_only)
                     lines = [field.raw_field for field in dd_board.fields]
                 except Exception as e:
                     warnings.warn('unable to determine double-dummy data: %s' % e)
