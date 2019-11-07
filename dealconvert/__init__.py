@@ -4,7 +4,6 @@ class DealConverter(object):
     def __init__(self, input_file=None, jfr_only=False):
         self.input = input_file
         self.formats = {}
-        print jfr_only
         if input_file is not None:
             self.parser = self.detect_format(self.input, jfr_only=jfr_only)
 
