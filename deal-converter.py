@@ -16,7 +16,10 @@ parser = argparse.ArgumentParser(
 parser.add_argument('--jfr', action='store_true',
                     help='For PBN file, write only JFR DD fields')
 parser.add_argument('--columns', type=int, default=None,
-                    help='For HTML files, print-out column count')
+                    help='For HTML and PDF files, print-out column count')
+parser.add_argument('--orientation', type=str,
+                    choices=['Landscape', 'Portrait'], default=None,
+                    help='For PDF files, page orientation')
 parser.add_argument('input', metavar='INPUT_FILE',
                     help='Input file path')
 parser.add_argument('output', metavar='OUTPUT_FILE', nargs='*',
@@ -31,7 +34,8 @@ warnings.showwarning = _warning
 try:
     converter = DealConverter(
         arguments.input,
-        jfr_only=arguments.jfr, columns=arguments.columns)
+        jfr_only=arguments.jfr,
+        columns=arguments.columns, orientation=arguments.orientation)
     converter.output(arguments.output)
 except RuntimeError as e:
     print('ERROR: %s' % (str(e)), file=sys.stderr)

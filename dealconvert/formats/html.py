@@ -188,7 +188,7 @@ class HTMLFormat(DealFormat):
         for row in deal_rows:
             table_content += '<table style="margin-top: -1px"><tr>'
             for deal in row:
-                table_content += '<td style="width: 4.9cm; border: solid 1px black">'
+                table_content += '<td style="width: 6.4cm; border: solid 1px black; padding: 0">'
                 deal_cells = [
                     ['', '', '', ''],
                     ['', '', '', ''],
