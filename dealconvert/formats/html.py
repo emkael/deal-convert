@@ -18,8 +18,6 @@ HTML_SUITS = OrderedDict([
     ('c', u'\u2663')
 ])
 
-_deals_per_column = 6
-
 _page_template = '''
 <html>
 <head>
@@ -81,6 +79,9 @@ class HTMLFormat(DealFormat):
     @property
     def suffix(self):
         return '.html'
+
+    def __init__(self, *args, **kwargs):
+        self.deals_per_column = kwargs.get('columns', 6)
 
     def parse_content(self, content):
         raise NotImplementedError
@@ -185,8 +186,8 @@ class HTMLFormat(DealFormat):
         deal_rows = []
         event_name = dealset[0].event
         while len(dealset) > 0:
-            deal_rows.append(dealset[0:_deals_per_column])
-            dealset = dealset[_deals_per_column:]
+            deal_rows.append(dealset[0:self.deals_per_column])
+            dealset = dealset[self.deals_per_column:]
         table_content = ''
         for row in deal_rows:
             table_content += '<tr>'
@@ -220,7 +221,7 @@ class HTMLFormat(DealFormat):
                 table_content += '</td>'
             table_content += '</tr>'
         return _page_template % (
-            _deals_per_column - 1, event_name, table_content
+            self.deals_per_column - 1, event_name, table_content
         )
 
     def output_content(self, out_file, dealset):

@@ -15,6 +15,8 @@ parser = argparse.ArgumentParser(
     'To print deals to HTML file, use *.html output file.\n')
 parser.add_argument('--jfr', action='store_true',
                     help='For PBN file, write only JFR DD fields')
+parser.add_argument('--columns', type=int, default=None,
+                    help='For HTML files, print-out column count')
 parser.add_argument('input', metavar='INPUT_FILE',
                     help='Input file path')
 parser.add_argument('output', metavar='OUTPUT_FILE', nargs='*',
@@ -27,7 +29,9 @@ def _warning(msg, *args, **kwargs):
 warnings.showwarning = _warning
 
 try:
-    converter = DealConverter(arguments.input, jfr_only=arguments.jfr)
+    converter = DealConverter(
+        arguments.input,
+        jfr_only=arguments.jfr, columns=arguments.columns)
     converter.output(arguments.output)
 except RuntimeError as e:
     print('ERROR: %s' % (str(e)), file=sys.stderr)
