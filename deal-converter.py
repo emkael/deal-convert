@@ -12,7 +12,9 @@ parser = argparse.ArgumentParser(
     epilog='Supported formats: BER BHG BRI CDS CSV DGE DLM DUP PBN RZD.\n' + \
     'Formats are auto-detected based on file extension.\n' + \
     'To display deals on STDOUT, provide "-" as an output file name.\n' + \
-    'To print deals to HTML file, use *.html output file.\n')
+    'To print deals to HTML file, use *.html output file.\n' + \
+    'To print deals to PDF file, use *.pdf output file.\n\n' + \
+    'PDF output requires wkhtmltopdf in a patched-qt version.')
 parser.add_argument('--jfr', action='store_true',
                     help='For PBN file, write only JFR DD fields')
 parser.add_argument('--columns', type=int, default=None,
