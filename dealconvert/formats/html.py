@@ -81,7 +81,7 @@ class HTMLFormat(DealFormat):
         return '.html'
 
     def __init__(self, *args, **kwargs):
-        self.deals_per_column = kwargs.get('columns', 6)
+        self.deals_per_column = kwargs.get('columns', 6) or 6
 
     def parse_content(self, content):
         raise NotImplementedError
