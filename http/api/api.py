@@ -59,7 +59,7 @@ def handle_upload(response, request):
 
     try:
         return_obj['name'] = params['name']
-        converter = DealConverter()
+        converter = DealConverter(columns=4, orientation='Portrait')
         parser = converter.detect_format(params['name'])
         input_file = StringIO(base64.b64decode(params['content']))
         dealset = parser.parse_content(input_file)
