@@ -26,12 +26,16 @@ _page_template = '''
 table {
     border-collapse: collapse;
     table-layout: fixed;
-    page-break-inside:auto;
+    page-break-inside:avoid;
     font-size: 8pt;
+    font-family: Arial, "Sans-serif";
 }
 @media screen {
     table {
         font-size: 12px;
+    }
+    thead {
+        display: table-header-group;
     }
 }
 tr {
@@ -39,20 +43,14 @@ tr {
     page-break-after:auto;
 }
 td {
+    page-break-inside:avoid;
     overflow: visible;
+    padding-bottom: 0;
 }
 thead {
     font-size: 10pt;
-}
-.header-left {
     text-align: left;
-}
-.header-right {
-    text-align: right;
-}
-.header-right:after {
-    counter-increment: page;
-    content: counter(page);
+    display: none;
 }
 .suit-d, .suit-h {
     color: red;
@@ -63,14 +61,11 @@ thead {
 <table width="100%%">
 <thead>
 <tr>
-<th class="header-left" colspan="%d">%s</th>
-<th class="header-right">Page </th>
+<th colspan="%d">%s</th>
 </tr>
 </thead>
-<tbody>
-%s
-</tbody>
 </table>
+%s
 </body>
 </html>
 '''
@@ -81,7 +76,8 @@ class HTMLFormat(DealFormat):
         return '.html'
 
     def __init__(self, *args, **kwargs):
-        self.deals_per_column = kwargs.get('columns', 6) or 6
+        DealFormat.__init__(self, *args, **kwargs)
+        self.deals_per_column = self.options.get('columns', 6) or 6
 
     def parse_content(self, content):
         raise NotImplementedError
@@ -190,9 +186,9 @@ class HTMLFormat(DealFormat):
             dealset = dealset[self.deals_per_column:]
         table_content = ''
         for row in deal_rows:
-            table_content += '<tr>'
+            table_content += '<table style="margin-top: -1px"><tr>'
             for deal in row:
-                table_content += '<td width="25%%" style="border: solid 1px black">'
+                table_content += '<td style="width: 4.9cm; border: solid 1px black">'
                 deal_cells = [
                     ['', '', '', ''],
                     ['', '', '', ''],
@@ -219,9 +215,9 @@ class HTMLFormat(DealFormat):
                 deal_content += '</table>'
                 table_content += deal_content
                 table_content += '</td>'
-            table_content += '</tr>'
+            table_content += '</tr></table>'
         return _page_template % (
-            self.deals_per_column - 1, event_name, table_content
+            self.deals_per_column, event_name, table_content
         )
 
     def output_content(self, out_file, dealset):
