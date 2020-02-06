@@ -141,7 +141,7 @@ class HTMLFormat(DealFormat):
                 data['table'] += '<td>' + self._get_suit_symbol(suit) + '</td>'
             data['table'] += '</tr>'
             player_order = [0, 2, 1, 3] # NESW -> NSEW
-            denom_order = range(4, 0, -1) # CDHSN -> NSHDC
+            denom_order = range(4, -1, -1) # CDHSN -> NSHDC
             for player in player_order:
                 data['table'] += '<tr>'
                 data['table'] += '<td style="border-left: solid 1px black">' + BCalcWrapper.PLAYERS[player] + '</td>'
