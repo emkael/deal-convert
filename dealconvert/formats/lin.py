@@ -45,7 +45,7 @@ class LINFormat(DealFormat):
                     if layout:
                         if deal_number in deals:
                             if deals[deal_number] != layout:
-                                print 'error, duplicate board number with differing layout'
+                                raise RuntimeError('multiple boards #%d with different layouts' % (deal_number))
                         deals[deal_number] = layout
                     else:
                         print 'layout not parsed: ' + fields['md'][0]
