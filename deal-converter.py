@@ -9,7 +9,7 @@ from dealconvert import DealConverter
 parser = argparse.ArgumentParser(
     description='Universal converter for bridge deal formats',
     formatter_class=argparse.RawTextHelpFormatter,
-    epilog='Supported formats: BER BHG BRI CDS CSV DGE DLM DUP PBN RZD.\n' + \
+    epilog='Supported formats: BER BHG BRI CDS CSV DGE DLM DUP LIN PBN RZD.\n' + \
     'Formats are auto-detected based on file extension.\n' + \
     'To display deals on STDOUT, provide "-" as an output file name.\n' + \
     'To print deals to HTML file, use *.html output file.\n' + \
