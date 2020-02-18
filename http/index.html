@@ -33,7 +33,16 @@
             <dd>
               Bo nie obsługiwał go BigDeal w momencie, kiedy konwerter powstawał.<br />
               Wyjątkiem są "ślepe" formaty Duplimate, które były wyodrębione w BigDeal, ale nie są obsługiwane, a różnią się od "jawnych" formatów Duplimate tylko określonymi opcjami. Oba te formaty są prawidłowo importowane, konwerter zapisuje jednak tylko do plików "jawnych".<br />
-              W przyszłości rozważane jest wsparcie dla formatu <code>LIN</code>. Jeśli chcesz obsługi jakiegoś innego formatu, pisz jak wyżej.
+              <s>W przyszłości rozważane jest wsparcie dla formatu <code>LIN</code>.</s> Jeśli chcesz obsługi jakiegoś innego formatu, pisz jak wyżej.
+            </dd>
+            <dt>Słyszałem, że obsługujesz już też format LIN.</dt>
+            <dd>
+              Jak brzmi pytanie?
+            </dd>
+            <dt>Przepraszam, jaki zakres formatu LIN obsługujesz?</dt>
+            <dd>
+              Import z plików <code>LIN</code> odczytuje nazwę imprezy, numery kolejnych rozdań oraz ich rozkłady (sprawdzając, czy wszystkie tak samo ponumerowane rozdania mają ten sam rozkład). Testowany na rozdaniach ściaganych z archiwum VuGraph, z archiwum BBO MyHands oraz w formacie BBO HandViewera.<br />
+              Eksport odbywa się w formacie zgodnym z plikami do prowadzenia transmisji BBO VuGraph.
             </dd>
             <dt>Czemu w pliku PBN nie ma analizy w widne?</dt>
             <dd>
@@ -127,6 +136,12 @@
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="output" value="dup" id="output-dup" />
                 <label class="form-check-label" for="output-dup">Old Duplimate (DUP)</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="output" value="lin" id="output-lin" />
+                <label class="form-check-label" for="output-lin">Bridge Base Online (LIN)</label>
               </div>
             </div>
             <div class="col-md-6 col-lg-4">
