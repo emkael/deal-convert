@@ -62,11 +62,10 @@ class LINFormat(DealFormat):
 
     def _parse_md_field(self, value):
         try:
-            first_hand = int(value[0])-1 # 0 = S, 1 = W, 2 = N, 3 = E
             hands = value[1:].split(',')
             layout = [[], [], [], []]
             for i, hand in enumerate(hands):
-                layout[(first_hand+i+2)%4] = self._parse_md_hand(hand) # N <-> S, E <-> W
+                layout[(i+2)%4] = self._parse_md_hand(hand) # hands always start from S
             for j, single_hand in enumerate(layout):
                 if not sum([len(suit) for suit in single_hand]): # fill 4th hand if necessary
                     for k, suit in enumerate(single_hand):
@@ -103,7 +102,7 @@ class LINFormat(DealFormat):
             dealer = (deal.dealer + 3) % 4 or 4
             layout = ''
             for i in range(0, 4):
-                for s, suit in enumerate(deal.hands[(i+dealer-3) % 4]):
+                for s, suit in enumerate(deal.hands[(i+2) % 4]):
                     layout += 'SHDC'[s]
                     layout += ''.join(suit)
                 if i < 3:
