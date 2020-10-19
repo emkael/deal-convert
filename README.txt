@@ -15,7 +15,7 @@ optional arguments:
   --orientation {Landscape,Portrait}
                         For PDF files, page orientation
 
-Supported formats: BER BHG BRI CDS CSV DGE DLM DUP HTML LIN PBN RZD.
+Supported formats: BER BHG BRI CDS CSV DGE DLM DUP LIN PBN RZD.
 Formats are auto-detected based on file extension.
 To display deals on STDOUT, provide "-" as an output file name.
 To print deals to HTML file, use *.html output file.
