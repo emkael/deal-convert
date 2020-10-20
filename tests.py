@@ -1,8 +1,5 @@
 import filecmp, itertools, os, sys, tempfile
 
-pybcddpath = os.path.realpath(os.path.join(os.path.dirname(__file__), 'pybcdd'))
-sys.path.append(pybcddpath)
-
 from dealconvert import DealConverter
 
 import pytest

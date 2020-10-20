@@ -8,8 +8,6 @@ from mod_python import apache, Session
 OLDPATH = copy.copy(sys.path)
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), '../../pybcdd')))
 from dealconvert import DealConverter
 sys.path = OLDPATH
 

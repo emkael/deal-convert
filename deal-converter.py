@@ -1,9 +1,6 @@
 from __future__ import print_function
 import argparse, os, sys, warnings
 
-pybcddpath = os.path.realpath(os.path.join(os.path.dirname(__file__), 'pybcdd'))
-sys.path.append(pybcddpath)
-
 from dealconvert import DealConverter
 
 parser = argparse.ArgumentParser(
