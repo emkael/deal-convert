@@ -111,9 +111,13 @@ class PBNFormat(DealFormat):
                 for i, suit in enumerate(hands[hand].split('.')):
                     deal_dto.hands[(hand + dealer) % 4][i] = list(suit)
             result.append(deal_dto)
-            if deal_obj.has_field('OptimumResultTable'):
-                deal_dto.extra_fields += deal_obj.get_optimum_table()
-            for field in ['Ability', 'Minimax', 'OptimumScore']:
+            if not self.options.get('jfr_only', False):
+                if deal_obj.has_field('OptimumResultTable'):
+                    deal_dto.extra_fields += deal_obj.get_optimum_table()
+                if deal_obj.has_field('OptimumScore'):
+                    deal_dto.extra_fields.append(
+                        str(deal_obj.get_field('OptimumScore', True)))
+            for field in ['Ability', 'Minimax']:
                 if deal_obj.has_field(field):
                     deal_dto.extra_fields.append(
                         str(deal_obj.get_field(field, True)))
