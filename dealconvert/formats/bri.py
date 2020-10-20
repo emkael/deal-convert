@@ -42,7 +42,7 @@ class BRIFormat(DealFormat):
             for hand in range(0, 3):
                 for card in deal[13*hand:13*(hand+1)]:
                     card = card - 1
-                    suit = card / 13
+                    suit = card // 13
                     card = card % 13
                     deal_obj.hands[hand][suit].append(self.cards[card])
             deal_obj.fill_west()

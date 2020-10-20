@@ -28,7 +28,7 @@ class DUPFormat(DealFormat):
             raise RuntimeError('.dup file header not found')
         start_board = int(boards[0][2][2:4].strip())
         board_count = int(boards[0][2][7:9].strip())
-        board_numbers = range(start_board, start_board+board_count)
+        board_numbers = list(range(start_board, start_board+board_count))
         if boards[0][2][1].upper() != 'N':
             warnings.warn(
                 '.dup file header has "reverse" flag set, ' +

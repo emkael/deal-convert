@@ -154,4 +154,4 @@ class PBNFormat(DealFormat):
                 except Exception as e:
                     warnings.warn('unable to determine double-dummy data: %s' % e)
             for line in lines + ['']:
-                out_file.write(line + '\r\n')
+                out_file.write((line + '\r\n'))

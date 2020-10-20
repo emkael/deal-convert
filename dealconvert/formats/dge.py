@@ -13,7 +13,7 @@ class DGEFormat(DealFormat):
     }
 
     def suit_indicator(self, the_suit):
-        for indicator, suit in self.suits.iteritems():
+        for indicator, suit in self.suits.items():
             if suit == the_suit:
                 return indicator
         return None

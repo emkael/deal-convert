@@ -7,15 +7,15 @@ from bcdd.Exceptions import FieldNotFoundException
 from bcdd.ParScore import ParScore
 from bcdd.PBNBoard import PBNBoard
 
-from . import DealFormat
+from . import BinaryFormat
 from .. import dto
 
 
 HTML_SUITS = OrderedDict([
-    ('s', u'\u2660'),
-    ('h', u'\u2665'),
-    ('d', u'\u2666'),
-    ('c', u'\u2663')
+    ('s', '\u2660'),
+    ('h', '\u2665'),
+    ('d', '\u2666'),
+    ('c', '\u2663')
 ])
 
 _page_template = '''
@@ -70,20 +70,20 @@ thead {
 </html>
 '''
 
-class HTMLFormat(DealFormat):
+class HTMLFormat(BinaryFormat):
     @property
     def suffix(self):
         return '.html'
 
     def __init__(self, *args, **kwargs):
-        DealFormat.__init__(self, *args, **kwargs)
+        BinaryFormat.__init__(self, *args, **kwargs)
         self.deals_per_column = self.options.get('columns', 6) or 6
 
     def parse_content(self, content):
         raise NotImplementedError
 
     def _get_html_hands(self, deal):
-        suits = HTML_SUITS.keys()
+        suits = list(HTML_SUITS.keys())
         return [
             [
                 self._get_html_suit(suits[i], suit)
@@ -141,7 +141,7 @@ class HTMLFormat(DealFormat):
                 data['table'] += '<td>' + self._get_suit_symbol(suit) + '</td>'
             data['table'] += '</tr>'
             player_order = [0, 2, 1, 3] # NESW -> NSEW
-            denom_order = range(4, -1, -1) # CDHSN -> NSHDC
+            denom_order = list(range(4, -1, -1)) # CDHSN -> NSHDC
             for player in player_order:
                 data['table'] += '<tr>'
                 data['table'] += '<td style="border-left: solid 1px black">' + BCalcWrapper.PLAYERS[player] + '</td>'

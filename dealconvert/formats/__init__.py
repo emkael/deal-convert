@@ -8,19 +8,33 @@ class DealFormat(object):
         self.interactive = interactive
         self.options = kwargs
 
+    def file_to_read(self, input_path):
+        return open(input_path, 'r')
+
+    def file_to_write(self, output_path):
+        return open(output_path, 'w')
+
     def parse(self, input_file):
-        with open(input_file, 'rb') as content:
+        with self.file_to_read(input_file) as content:
             return self.parse_content(content)
 
     def output(self, output_file, deal, analyze=False):
         self.analyze = analyze
         if not len(deal):
             raise RuntimeError('Dealset is empty')
-        with open(output_file, 'wb') as out_file:
+        with self.file_to_write(output_file) as out_file:
             return self.output_content(out_file, deal)
 
     def match_file(self, filename):
         return filename.lower().endswith(self.suffix)
+
+    def parse_byte(self, byte):
+        try:
+            converted_byte = ord(byte)
+            byte = converted_byte
+        except TypeError:
+            converted_byte = byte # in Python3, ord() is not needed
+        return converted_byte
 
     @property
     def suffix(self):
@@ -31,6 +45,14 @@ class DealFormat(object):
 
     def output_content(self, out_file, deal):
         pass
+
+
+class BinaryFormat(DealFormat):
+    def file_to_read(self, input_path):
+        return open(input_path, 'rb')
+
+    def file_to_write(self, output_path):
+        return open(output_path, 'wb')
 
 
 modules = glob.glob(join(dirname(__file__), "*.py"))

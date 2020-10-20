@@ -33,7 +33,7 @@ class BHGFormat(DealFormat):
                     ]
                     for hand, cards in enumerate(hands):
                         for card in cards:
-                            suit = card / 13
+                            suit = card // 13
                             card = self.cards[card % 13]
                             deal.hands[(hand + deal.dealer) % 4][suit].append(card)
                     deals.append(deal)

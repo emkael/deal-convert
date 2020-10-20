@@ -3,18 +3,18 @@ import warnings
 
 import pdfkit
 
-from . import DealFormat
+from . import BinaryFormat
 from .html import HTMLFormat
 from .. import dto
 
 
-class PDFFormat(DealFormat):
+class PDFFormat(BinaryFormat):
     @property
     def suffix(self):
         return '.pdf'
 
     def __init__(self, *args, **kwargs):
-        DealFormat.__init__(self, *args, **kwargs)
+        BinaryFormat.__init__(self, *args, **kwargs)
         self.html_formatter = HTMLFormat(*args, **kwargs)
 
     def parse_content(self, content):

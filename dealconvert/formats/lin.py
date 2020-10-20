@@ -48,9 +48,9 @@ class LINFormat(DealFormat):
                                 raise RuntimeError('multiple boards #%d with different layouts' % (deal_number))
                         deals[deal_number] = layout
                     else:
-                        print 'layout not parsed: ' + fields['md'][0]
+                        print('layout not parsed: ' + fields['md'][0])
         dealset = []
-        for number, layout in deals.iteritems():
+        for number, layout in deals.items():
             deal = dto.Deal()
             deal.event = event
             deal.number = number

@@ -20,7 +20,7 @@ class DLMFormat(DealFormat):
             except IndexError:
                 warnings.warn('unable to parse .dlm line: %s' % (line))
         try:
-            boards = range(int(fields['From board']), int(fields['To board'])+1)
+            boards = list(range(int(fields['From board']), int(fields['To board'])+1))
         except (ValueError, IndexError):
             raise RuntimeError('unable to parse .dlm board number data')
         checksum = len(boards)
@@ -42,9 +42,9 @@ class DLMFormat(DealFormat):
                 str_checksum = int(board_str[26:])
                 values = []
                 for char in board_str[0:26]:
-                    checksum ^= ord(char)
-                    value = ord(char) - 97
-                    values.append(value / 4)
+                    checksum ^= self.parse_byte(char)
+                    value = self.parse_byte(char) - 97
+                    values.append(value // 4)
                     values.append(value % 4)
                 if checksum != str_checksum:
                     warnings.warn(
@@ -84,7 +84,7 @@ class DLMFormat(DealFormat):
         header.append('Crypto key=0')
         header.append('Checksum=%d' % (board_count^1))
         lines = ['', ''] * 99
-        for i in range(1, first_board) + range(first_board+board_count, 100):
+        for i in list(range(1, first_board)) + list(range(first_board+board_count, 100)):
             lines[(i-1)*2] = 'Duplicates %02d=0' % (i)
             lines[(i-1)*2+1] = 'Board %02d=aaaaaabffffffkkkkkklpppppp%03d' % (
                 i, i^14)

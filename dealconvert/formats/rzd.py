@@ -1,9 +1,9 @@
 import warnings
 
-from . import DealFormat
+from . import BinaryFormat
 from .. import dto
 
-class RZDFormat(DealFormat):
+class RZDFormat(BinaryFormat):
     number_warning = '.rzd file format assumes consequent deal numbers from 1'
 
     @property
@@ -13,10 +13,10 @@ class RZDFormat(DealFormat):
     def parse_deal(self, data, offset=0):
         deal = dto.Deal()
         for card, byte in enumerate(data):
-            byte = ord(byte)
+            byte = self.parse_byte(byte)
             for suit in range(3, -1, -1):
                 deal.hands[(byte%4 - offset)%4][suit].append(self.cards[card])
-                byte /= 4
+                byte //= 4
         return deal.hands
 
     def parse_content(self, content):
@@ -43,7 +43,7 @@ class RZDFormat(DealFormat):
         return dealset
 
     def dump_deal(self, deal, offset=0):
-        value = ''
+        value = []
         values = [None] * 52
         for i, hand in enumerate(deal.hands):
             for suit, cards in enumerate(hand):
@@ -60,14 +60,15 @@ class RZDFormat(DealFormat):
                     raise RuntimeError('missing card: %s%s in board %d' % ('SHDC'[j], self.cards[i], deal.number))
                 byte *= 4
                 byte += values[4*i+j]
-            value += chr(byte)
+            value.append(byte)
+        print(value)
         return value
 
     def output_content(self, out_file, dealset):
         warnings.warn(self.number_warning)
         board_count = len(dealset)
-        out_file.write(chr(board_count%256))
-        out_file.write(chr(board_count/256))
-        out_file.write(' '*11)
+        out_file.write(bytearray([board_count%256]))
+        out_file.write(bytearray([board_count//256]))
+        out_file.write((' '*11).encode())
         for deal in dealset:
-            out_file.write(self.dump_deal(deal))
+            out_file.write(bytearray(self.dump_deal(deal)))
