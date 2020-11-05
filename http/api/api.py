@@ -12,6 +12,7 @@ OLDPATH = copy.copy(sys.path)
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from dealconvert import DealConverter
+from dealconvert.formats import *
 sys.path = OLDPATH
 
 CACHEPATH = os.path.abspath(
