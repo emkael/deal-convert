@@ -1,4 +1,5 @@
-from .formats import *
+from importlib import import_module
+
 
 class DealConverter(object):
     def __init__(self, input_file=None, **kwargs):
@@ -14,10 +15,11 @@ class DealConverter(object):
             self.detect_format(output).output(output, deal_set, True)
 
     def detect_format(self, filename, interactive=True):
-        for deal_format in globals()['formats'].__all__:
+        for deal_format in import_module('.formats', 'dealconvert').__all__:
             if deal_format not in self.formats:
+                mod = import_module('.formats.' + deal_format, 'dealconvert')
                 self.formats[deal_format] = getattr(
-                    globals()[deal_format],
+                    mod,
                     deal_format.upper() + 'Format')(interactive, **self.format_options)
             if self.formats[deal_format].match_file(filename):
                 return self.formats[deal_format]
