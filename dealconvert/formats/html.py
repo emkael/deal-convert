@@ -12,10 +12,10 @@ from .. import dto
 
 
 HTML_SUITS = OrderedDict([
-    ('s', '\u2660'),
-    ('h', '\u2665'),
-    ('d', '\u2666'),
-    ('c', '\u2663')
+    ('s', u'\u2660'),
+    ('h', u'\u2665'),
+    ('d', u'\u2666'),
+    ('c', u'\u2663')
 ])
 
 _page_template = '''
