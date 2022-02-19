@@ -1,5 +1,8 @@
 from collections import OrderedDict
+import sys
 import warnings
+
+import chardet
 
 from bcdd.BCalcWrapper import BCalcWrapper
 from bcdd.DDTable import DDTable
@@ -181,6 +184,7 @@ class HTMLFormat(BinaryFormat):
     def get_html_content(self, dealset):
         deal_rows = []
         event_name = dealset[0].event
+        event_name = event_name.decode(chardet.detect(event_name)['encoding'])
         while len(dealset) > 0:
             deal_rows.append(dealset[0:self.deals_per_column])
             dealset = dealset[self.deals_per_column:]
