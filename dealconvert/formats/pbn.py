@@ -83,6 +83,8 @@ class PBNFormat(DealFormat):
         for deal in deals:
             deal_obj = PBNDeal()
             deal_obj.parse(deal)
+            if not deal_obj.has_field('Deal'):
+                continue
             deal_dto = dto.Deal()
             if deal_obj.has_field('Event'):
                 deal_dto.event = deal_obj.get_field('Event')
