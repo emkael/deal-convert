@@ -63,7 +63,10 @@ class LINFormat(DealFormat):
     def _parse_md_field(self, value):
         try:
             hands = value[1:].split(',')
-            layout = [[], [], [], []]
+            layout = [[[], [], [], []],
+                      [[], [], [], []],
+                      [[], [], [], []],
+                      [[], [], [], []]]
             for i, hand in enumerate(hands):
                 layout[(i+2)%4] = self._parse_md_hand(hand) # hands always start from S
             for j, single_hand in enumerate(layout):
