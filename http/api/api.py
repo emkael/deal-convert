@@ -152,7 +152,7 @@ def handle_download(response, request, uri_parts=[]):
     content = base64.b64decode(output['content'])
     response.content_type = 'application/octet-stream'
     response.headers_out.add(
-        'Content-Disposition', 'attachment; filename=%s' % (output['name']))
+        'Content-Disposition', 'attachment; filename=%s' % (output['name'].encode('utf-8')))
     response.write(content)
 
 def handler(req):
