@@ -121,5 +121,5 @@ class TXTFormat(DealFormat):
             url = '%s?%s' % (
                 self._url_prefix, urlencode(params))
             lines.append(url)
-        for line in lines + ['']:
+        for line in lines:
             out_file.write(line + '\r\n')
