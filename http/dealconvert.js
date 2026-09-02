@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $('a.faq-btn').popover();
+    $('a.txt-faq-btn').popover();
     $('input[name="output"]').change(function() {
         if ($('input[name="output"]:checked').length > 0) {
             $('#submit-btn').removeAttr('disabled');
