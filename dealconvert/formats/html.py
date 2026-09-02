@@ -183,7 +183,7 @@ class HTMLFormat(BinaryFormat):
 
     def get_html_content(self, dealset):
         deal_rows = []
-        event_name = dealset[0].event
+        event_name = ([deal.event for deal in dealset if deal.event] + [''])[0] or 'Event'
         event_name = event_name.decode(chardet.detect(event_name)['encoding'] or 'ascii')
         while len(dealset) > 0:
             deal_rows.append(dealset[0:self.deals_per_column])
