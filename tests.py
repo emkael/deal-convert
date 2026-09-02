@@ -5,7 +5,7 @@ from dealconvert import DealConverter
 import pytest
 
 
-formats = ['ber', 'bhg', 'bri', 'rzd', 'cds', 'csv', 'dge', 'dlm', 'dup', 'lin', 'pbn']
+formats = ['ber', 'bhg', 'bri', 'rzd', 'cds', 'csv', 'dge', 'dlm', 'dup', 'lin', 'pbn', 'txt']
 format_files = ['test.' + f for f in formats] + ['test-jfr.pbn']
 test_data = [(d[0], d[1], d[1] == 'test-jfr.pbn') for d in itertools.product(format_files, format_files)]
 
